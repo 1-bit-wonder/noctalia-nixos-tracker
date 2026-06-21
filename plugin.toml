@@ -1,0 +1,62 @@
+# Nixpkgs PR Tracker — watches one or more nixpkgs pull requests and notifies you
+# when each one reaches a target branch (default nixos-unstable).
+#
+# Architecture (mirrors the official screen_recorder plugin):
+#   [[service]]  background.luau — the polling + notification engine. Runs headless
+#                for the whole session, so notifications fire even when no widget is
+#                placed on the bar. Publishes "status" on the shared state channel
+#                and listens on "command" for manual refreshes.
+#   [[widget]]   widget.luau     — a thin bar tile. Mirrors the service's "status"
+#                (compact merged/total count, tooltip, icon) and triggers a manual
+#                refresh by writing to "command" on left click.
+#
+# Settings are plugin-level ([[setting]] at the root): one shared set, seeded into
+# noctalia.getConfig() for every entry, edited from Settings → Plugins.
+
+id = "1-bit-wonder/nixos-tracker"
+name = "Nixpkgs PR Tracker"
+version = "1.0.0"
+min_noctalia = "5.0.0"
+author = "1-bit-wonder"
+license = "MIT"
+icon = "git-pull-request"
+description = "Watch nixpkgs PRs and get notified when each reaches a target branch (e.g. nixos-unstable)."
+tags = ["nix", "nixos", "nixpkgs", "github", "monitor"]
+
+# --- Settings (shared by service + widget via noctalia.getConfig) ---
+
+[[setting]]
+key = "prs"
+type = "string"
+label_key = "settings.prs.label"
+description_key = "settings.prs.description"
+default = ""
+
+[[setting]]
+key = "target_branch"
+type = "string"
+label_key = "settings.target_branch.label"
+description_key = "settings.target_branch.description"
+default = "nixos-unstable"
+
+[[setting]]
+key = "poll_interval"
+type = "int"
+label_key = "settings.poll_interval.label"
+description_key = "settings.poll_interval.description"
+default = 600
+min = 60
+max = 86400
+
+# --- Entries ---
+
+# Headless background poller. Runs for the whole session; notifications fire
+# regardless of whether the widget below is placed on the bar.
+[[service]]
+id = "poller"
+entry = "background.luau"
+
+# Bar tile: thin presentation client. Mirrors "status", refreshes via "command".
+[[widget]]
+id = "tracker"
+entry = "widget.luau"

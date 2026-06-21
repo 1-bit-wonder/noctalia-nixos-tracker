@@ -1,0 +1,16 @@
+{
+  "settings": {
+    "prs": {
+      "label": "Pull requests",
+      "description": "Comma-separated nixpkgs PR numbers to watch. Bare numbers, #123, or full GitHub PR URLs all work. Example: 530302, 528900"
+    },
+    "target_branch": {
+      "label": "Target branch",
+      "description": "Notify when a PR reaches this branch. Common values: nixos-unstable, nixos-unstable-small, nixpkgs-unstable, master, nixos-25.05."
+    },
+    "poll_interval": {
+      "label": "Poll interval (seconds)",
+      "description": "How often to check nixpk.gs. Minimum 60 seconds; default 600 (10 minutes)."
+    }
+  }
+}
