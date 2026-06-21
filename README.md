@@ -30,6 +30,12 @@ it reaches your chosen branch — plus a compact status tile for your bar.
 
 ## At a glance
 
+<div align="center">
+
+<img src="assets/popup.png" alt="The bar widget showing a 0/1 count with its per-PR status tooltip" width="420">
+
+</div>
+
 | Widget shows | Meaning |
 |---|---|
 | `2/3` + pull-request icon | 2 of 3 tracked PRs have reached the target |
